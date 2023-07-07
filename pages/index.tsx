@@ -1,3 +1,31 @@
+import Navbar from "@/components/Navbar";
+import useCurrentUser from "@/hooks/useCurrentUser";
+import { NextPageContext } from "next";
+import { getSession, signOut } from "next-auth/react";
+
 export default function Home() {
-  return <h1 className="text-2xl text-slate-600">Hello Netflix</h1>;
+  const { data: user } = useCurrentUser();
+
+  return (
+    <>
+      <Navbar />
+    </>
+  );
+}
+
+export async function getServerSideProps(ctx: NextPageContext) {
+  const session = await getSession(ctx);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/auth",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
 }
