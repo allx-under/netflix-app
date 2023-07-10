@@ -7,8 +7,9 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
 import prismadb from "@/lib/prismadb";
 import { compare } from "bcrypt";
+import { AuthOptions } from "next-auth";
 
-export default NextAuth({
+export const authOptions: AuthOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID || "",
@@ -51,11 +52,7 @@ export default NextAuth({
         if (!correctPass) {
           throw new Error("Wrong password");
         }
-        if (user) {
-          return user;
-        }
-
-        return null;
+        return user;
       },
     }),
   ],
@@ -71,4 +68,6 @@ export default NextAuth({
     secret: process.env.NEXTAUTH_JWT_SECRET,
   },
   secret: process.env.NEXTAUTH_SECRET,
-});
+};
+
+export default NextAuth(authOptions);
