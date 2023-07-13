@@ -12,6 +12,7 @@ const Input: React.FC<InputProps> = ({ id, onChange, value, label, type }) => {
   return (
     <div className="relative">
       <input
+        autoComplete="off"
         id={id}
         type={type}
         onChange={onChange}
